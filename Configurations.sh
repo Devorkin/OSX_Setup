@@ -475,7 +475,7 @@ for app in \
 	"Photos" \
 	"Safari" \
 	"SystemUIServer" \
-	"Terminal" \
+	"iTerm" \
  	"iCal"; do
  	killall "${app}" &> /dev/null
 done
