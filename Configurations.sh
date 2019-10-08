@@ -460,12 +460,6 @@ fi
 # Kill all affected processes & apps
 osascript -e 'tell application "System Preferences" to quit'
 
-# Solution no. #1
-# for app in "Code","Dock","Finder","System Preferences"; do
-#     echodo sudo killall ${app}
-# done
-
-# Solution no. #2
 for app in \
     "Activity Monitor" \
 	"cfprefsd" \
