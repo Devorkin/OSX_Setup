@@ -1,0 +1,23 @@
+alias df="df -h"
+alias du="du -hs"
+alias ll="ls -GlAh"
+alias ls="ls -G"
+alias mkdir="mkdir -vp"
+alias sshx="ssh -X"
+alias sublime="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
+alias wget="wget -c"
+
+export PATH="/bin:/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin:/usr/sbin"
+
+function sshr {
+	SSH=`which ssh`
+	$SSH -t $@ screen -RD ;
+	if [ `echo $?` == 127 ]
+	then
+		echo "Screen NOT INSTALLED ON $@, will use SSH without Screen instead."
+		echo "##"
+		echo "##"
+		$SSH $@
+	fi
+}
+source /usr/local/etc/grc.bashrc
