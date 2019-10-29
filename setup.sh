@@ -267,7 +267,6 @@ fi
 
 ## Configure Bash
 echodo ln -s ./Bash/bash_profile $HOME/.bash_profile
-echodo sudo chown $USER:staff $HOME/.bash_profile
 echodo source $HOME/.bash_profile
 
 ## Configures Dock
@@ -414,8 +413,6 @@ if [ -d /Applications/iTerm.app ]; then
     echodo defaults write com.googlecode.iterm2 NoSyncPermissionToShowTip -int 0
     echodo defaults write com.googlecode.iterm2 PrefsCustomFolder "$(pwd)/iTerm"
     echodo defaults write com.googlecode.iterm2 SUEnableAutomaticChecks -int 1
-    echodo chown $USER:staff $(pwd)/iTerm/com.googlecode.iterm2.plist
-    echodo chmod 0600 "$(pwd)/iTerm"/com.googlecode.iterm2.plist
 fi
 
 ## Configures Safari
