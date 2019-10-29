@@ -266,7 +266,7 @@ if [ "`sudo systemsetup -getusingnetworktime`" != 'Network Time: On' ]; then
 fi
 
 ## Configure Bash
-echodo cp ./Bash/bash_profile $HOME/.bash_profile
+echodo ln -s ./Bash/bash_profile $HOME/.bash_profile
 echodo sudo chown $USER:staff $HOME/.bash_profile
 echodo source $HOME/.bash_profile
 
@@ -448,7 +448,14 @@ if [ -d "/Applications/Visual\ Studio\ Code.app" ]; then
     if [ -f "$HOME/Library/Application\ Support/Code/User/settings.json" ]; then
         echodo rm -f "$HOME/Library/Application\ Support/Code/User/settings.json"
     fi
-    echodo cp ./Code/settings.json $HOME/Library/Application\ Support/Code/User/settings.json
+    echodo ln -s ./Code/settings.json $HOME/Library/Application\ Support/Code/User/settings.json
+fi
+
+## Import Übersicht widget
+if [ -d /Applications/Übersicht.app ]; then
+    echodo cd $HOME/Library/Application\ Support/Übersicht/widgets
+    #echodo rm -f *
+    echodo git clone git@github.com:Devorkin/theonewidget.git
 fi
 
 ## Configures Wireshark
@@ -470,7 +477,8 @@ for app in \
 	"Safari" \
 	"SystemUIServer" \
 	"iTerm" \
- 	"iCal"; do
+ 	"iCal" \
+    "Übersicht"; do
  	killall "${app}" &> /dev/null
 done
 
