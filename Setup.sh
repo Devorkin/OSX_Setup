@@ -176,7 +176,7 @@ echodo defaults write com.apple.Finder ShowPathbar -bool true
 # Show status bar in Finder
 echodo defaults write com.apple.Finder ShowStatusBar -bool true
 # Show Laptop battery capacity in percentage
-echodo defaults write com.apple.menuextra.battery ShowPercent -string "YES"
+# echodo defaults write com.apple.menuextra.battery ShowPercent -string "YES"
 # Show laptop battery time 'till battery drain out of power
 echodo defaults write com.apple.menuextra.battery ShowTime -string "NO"
 # Show Date and Time format in the system bar
