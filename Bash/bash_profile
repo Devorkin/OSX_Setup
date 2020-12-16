@@ -4,20 +4,28 @@ alias ll="ls -GlAh"
 alias ls="ls -G"
 alias mkdir="mkdir -vp"
 alias sshx="ssh -X"
-alias sublime="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 alias wget="wget -c"
 
 export PATH="/bin:/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin:/usr/sbin"
+export PATH="/usr/local/opt/gettext/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/gettext/lib"
+export CPPFLAGS="-I/usr/local/opt/gettext/include"
+export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
+export LANG=“en_US.UTF-8”
+export PYCURL_SSL_LIBRARY=openssl
 
 function sshr {
-	SSH=`which ssh`
-	$SSH -t $@ screen -RD ;
-	if [ `echo $?` == 127 ]
-	then
-		echo "Screen NOT INSTALLED ON $@, will use SSH without Screen instead."
-		echo "##"
-		echo "##"
-		$SSH $@
-	fi
+        SSH=`which ssh`
+        $SSH -t $@ screen -RD ;
+        if [ `echo $?` == 127 ]
+        then
+                echo "Screen NOT INSTALLED ON $@, will use SSH without Screen instead."
+                echo "##"
+                echo "##"
+                $SSH $@
+        fi
 }
-source /usr/local/etc/grc.bashrc
+
+#source /usr/local/etc/grc.bashrc
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
