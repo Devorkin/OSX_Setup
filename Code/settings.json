@@ -1,4 +1,13 @@
 {
-    "workbench.iconTheme": "vscode-icons",
-    "window.title": "${activeEditorLong}${separator}${rootName}"
+    "window.zoomLevel": 1,
+    "git.confirmSync": false,
+    "window.openFoldersInNewWindow": "on",
+    "window.nativeTabs": true,
+    "window.titleBarStyle": "native",
+    "vsicons.dontShowNewVersionMessage": true,
+    "editor.fontFamily": "JetBrains mono",
+    "[powershell]": {},
+    "powershell.promptToUpdatePowerShell": false,
+    "terminal.integrated.shell.osx": "/bin/bash",
+    "mssql.connections": []
 }
