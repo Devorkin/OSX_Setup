@@ -1,10 +1,13 @@
 #! /bin/bash
 
+. OS_version.sh
+
 ####
 ## Credits to:
-## dannysmith/osx_setup.sh - https://gist.github.com/dannysmith/9369950
-## hbiede/defaults.sh - https://github.com/hbiede/Scripts/blob/master/defaults.sh
-## mathiasbynens/.macos - https://github.com/mathiasbynens/dotfiles/blob/master/.macos
+## dannysmith/osx_setup.sh      -   https://gist.github.com/dannysmith/9369950
+## hbiede/defaults.sh           -   https://github.com/hbiede/Scripts/blob/master/defaults.sh
+## mathiasbynens/.macos         -   https://github.com/mathiasbynens/dotfiles/blob/master/.macos
+## kevinSuttle/macOS-Defaults   -   https://github.com/kevinSuttle/macOS-Defaults/blob/master/.macos
 ####
 
 ##### Missing #####
@@ -41,140 +44,6 @@ warning_msg() {
 function echodo {
 	output_msg "$@"
 	"$@"
-}
-
-function OS_type {
-	# Recognize OS type:
-	if [[ -f /etc/redhat-release ]]; then
-        OStype="CentOS"
-	elif [[ -f /usr/bin/lsb_release ]]; then
-        OStype="Ubuntu"
-	elif [[ -f /usr/bin/sw_vers ]]; then
-		OStype="OSX"
-	else
-		error_msg "This script supports CentOS \ RHEL, OSX or Ubuntu OS ditributions!"
-		exit 102
-	fi
-}
-
-function OS_version {
-    if [[ ${OStype} == "CentOS" ]]; then
-        if [[ `cat /etc/redhat-release` == "CentOS Linux release 7."* ]]; then
-			OSversion=7
-		elif [[ `cat /etc/redhat-release` == "CentOS release 6."* ]]; then
-			OSversion=6
-        else
-            error_msg "Your CentOS version is not supported yet!"
-            exit 103
-		fi
-    elif [[ ${OStype} == "Ubuntu" ]]; then
-        OSval=`/usr/bin/lsb_release -rs`
-        case ${OSval} in
-        14.04)
-            OSname='Trusty Tahr'
-            OSversion="14.04"
-            ;;
-        14.10)
-            OSname='Utopic Unicorn'
-            OSversion="14.10"
-            ;;
-        15.04)
-            OSname='Vivid Vervet'
-            OSversion="15.04"
-            ;;
-        15.10)
-            OSname='Wily Werewolf'
-            OSversion="15.10"
-            ;;
-        16.04)
-            OSname='Xenial Xerus'
-            OSversion="16.04"
-            ;;
-        16.10)
-            OSname='Yakkety Yak'
-            OSversion="16.10"
-            ;;
-        17.04)
-            OSname='Zesty Zapus'
-            OSversion="17.04"
-            ;;
-        17.10)
-            OSname='Artful Aardvark'
-            OSversion="17.10"
-            ;;
-        18.04)
-            OSname='Bionic Beaver'
-            OSversion="18.04"
-            ;;
-        18.10)
-            OSname='Cosmic Cuttlefish'
-            OSversion="18.10"
-            ;;
-        19.04)
-            OSname='Disco Dingo'
-            OSversion="19.04"
-            ;;
-        *)
-            error_msg "Your Ubuntu version is not supported yet!"
-            exit 104
-            ;;
-       esac
-    elif [[ ${OStype} == "OSX" ]]; then
-		OSval=`sw_vers -productVersion`
-		case ${OSval} in
-            10.6.*)
-                OSname='Snow Leopard'
-                OSversion="10.6"
-                ;;
-            10.7.*)
-                OSname='Lion'
-                OSversion="10.7"
-                ;;
-            10.8.*)
-                OSname='Mountain Lion'
-                OSversion="10.8"
-                ;;
-            10.9.*)
-                OSname='Mavericks'
-                OSversion="10.9"
-                ;;
-            10.10.*)
-                OSname='Yosemite'
-                OSversion="10.10"
-                ;;
-            10.11.*)
-                OSname="El Capitan"
-                OSversion="10.11"
-                ;;
-            10.12.*)
-                OSname='High Sierra'
-                OSversion="10.12"
-                ;;
-            10.13.*)
-                OSname='High Sierra'
-                OSversion="10.13"
-                ;;
-            10.14.*)
-                OSname='Mojave'
-                OSversion="10.14"
-                ;;
-            10.15.*)
-                OSname='Catalina'
-                OSversion="10.15"
-                ;;
-            10.14.*)
-                OSname='Mojave'
-                OSversion="10.14"
-                ;;
-            10.15 | 10.15.*)
-                OSname='Catalina'
-                OSversion="10.15"
-                ;;
-            *)
-                error_msg "Your Mac OS version is not supported yet!"
-                exit 105
-        esac
-    fi
 }
 
 ### Main ###
@@ -255,6 +124,10 @@ echodo defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 echodo defaults -currentHost write NSGlobalDomain com.apple.trackpad.twoFingerFromRightEdgeSwipeGesture -int 0
 echodo defaults write -g com.apple.swipescrolldirection -bool false
 
+## Configure Bluetooth
+# Increase sound quality for Bluetooth headphones/headsets
+defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40                 # Should be tested
+
 ## Configures Time, Date & NTP
 if [ "`sudo systemsetup -gettimezone`" != 'Time Zone: Asia/Jerusalem' ]; then
     # Configuring system time zone
@@ -266,8 +139,14 @@ if [ "`sudo systemsetup -getusingnetworktime`" != 'Network Time: On' ]; then
 fi
 
 ## Configure Bash
-echodo ln -s ./Bash/bash_profile $HOME/.bash_profile
-echodo source $HOME/.bash_profile
+### Moved to Zsh shell instead - so this is disabled
+### Zsh will be managed by another package
+# if [[ ! -f $HOME/.bash_profile ]]; then
+#     echodo cp ./Bash/bash_profile $HOME/.bash_profile
+#     echodo source $HOME/.bash_profile
+# else
+#     warning_msg ".bash_profile configuration file is already exist!"
+# fi
 
 ## Configures Dock
 # Clearing all icons\shortcuts from the Dock for fresh start
@@ -344,6 +223,8 @@ echodo defaults write NSGlobalDomain AppleLanguages -array "en-IL" "he-IL"
 echodo defaults write NSGlobalDomain AppleLocale -string "en_IL"
 echodo defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
 echodo defaults write NSGlobalDomain AppleMetricUnits -bool true
+# Increase window resize speed for Cocoa applications
+defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
 
 # AirDrop
 # Use AirDrop over every interface. srsly this should be a default.
@@ -408,10 +289,15 @@ echodo defaults write com.apple.Terminal "Default Window Settings" -string "Pro"
 echodo defaults write com.apple.terminal StringEncodings -array 4
 
 if [ -d /Applications/iTerm.app ]; then
+    # Create local iTerm2 configuration directory
+    if [ ! -d $HOME/.iterm2 ]; then
+        echodo mkdir $HOME/.iterm2
+    fi
+    echodo cp $(pwd)/iTerm/* $HOME/.iterm2/
     # Importing iTerm2 configurtion
     echodo defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -int 1
     echodo defaults write com.googlecode.iterm2 NoSyncPermissionToShowTip -int 0
-    echodo defaults write com.googlecode.iterm2 PrefsCustomFolder "$(pwd)/iTerm"
+    echodo defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/.iterm2/"
     echodo defaults write com.googlecode.iterm2 SUEnableAutomaticChecks -int 1
 fi
 
@@ -449,11 +335,12 @@ if [ -d "/Applications/Visual\ Studio\ Code.app" ]; then
 fi
 
 ## Import Übersicht widget
-if [ -d /Applications/Übersicht.app ]; then
-    echodo cd $HOME/Library/Application\ Support/Übersicht/widgets
-    #echodo rm -f *
-    echodo git clone git@github.com:Devorkin/theonewidget.git
-fi
+# if [ -d /Applications/Übersicht.app ]; then
+#     if [[ ! `pgrep Übersicht`]]
+#     echodo /Applications/Übersicht.app/Contents/MacOS/Übersicht 2> /dev/null 1> /dev/null &bg
+#     echodo cd $HOME/Library/Application\ Support/Übersicht/widgets
+#     echodo git clone git@github.com:Devorkin/theonewidget.git
+# fi
 
 ## Configures Wireshark
 if [ -d /Applications/Wireshark.app ]; then
