@@ -137,6 +137,10 @@ function OS_version {
                 OSname='Big Sur'
                 OSVersion="11.0"
                 ;;
+            11.1)
+                OSname='Big Sur'
+                OSVersion="11.1"
+                ;;
             *)
                 error_msg "Your Mac OS version is not supported yet!"
                 exit 105
