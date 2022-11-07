@@ -1409,8 +1409,6 @@
 			<true/>
 			<key>Window Type</key>
 			<integer>2</integer>
-			<key>Working Directory</key>
-			<string>/Users/yehonatan.devorkin</string>
 		</dict>
 		<dict>
 			<key>ASCII Anti Aliased</key>
@@ -2134,8 +2132,6 @@
 			<true/>
 			<key>Window Type</key>
 			<integer>2</integer>
-			<key>Working Directory</key>
-			<string>/Users/yehonatan.devorkin</string>
 		</dict>
 	</array>
 	<key>NoSyncAllAppVersions</key>
